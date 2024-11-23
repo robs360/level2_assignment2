@@ -78,6 +78,35 @@ const deleteSingleProduct=async (req:Request,res:Response)=>{
    }
 }
 
+
+const updateSingleProduct=async (req:Request,res:Response)=>{
+    try{
+        const id=req.params.id;
+        const updateDoc=req.body.product;
+        const result=await ProductServices.updatSingleProsuctFromDB(id,updateDoc)
+        if (result.matchedCount === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Product not found.",
+            });
+        }
+        if(result.modifiedCount>0){
+            res.status(200).json({ 
+                success: true,
+                 message: "Product updated successfully."
+             });
+        }
+    }
+    catch(err){
+        res.status(500).json({
+            success: false,
+            message: "Failed To Update Data.",
+            error: err instanceof Error ? err.message : "Unknown error",
+        });
+    }
+}
+
 export const ProductController={
-    createProduct,getAllProduct,getSingleProduct, deleteSingleProduct
+    createProduct,getAllProduct,getSingleProduct,
+     deleteSingleProduct,updateSingleProduct
 }

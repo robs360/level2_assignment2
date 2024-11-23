@@ -16,29 +16,35 @@ const product_model_1 = require("../product/product.model");
 const order_model_1 = require("./order.model");
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        let mess = "Order Not Possible";
         const order = req.body.order;
         const decrement = order.quantity;
         const query = { _id: new mongodb_1.ObjectId(order.product) };
         const Result2 = yield product_model_1.ProductModel.find(query);
-        if (Result2[0].quantity < decrement) {
-            res.send({
-                message: "Sorry Quantity are not avialable"
-            });
-        }
-        const result = yield order_services_1.OrderServices.createOrderIntoDB(order);
         const update = { $inc: { quantity: -decrement } };
         const options = { new: true };
-        const updatedProduct = yield product_model_1.ProductModel.updateOne(query, update, options);
+        if (Result2[0].quantity < decrement) {
+            res.status(404).json({
+                message: "Sorry Quantity Are Not Avialable"
+            });
+        }
+        else {
+            const result = yield order_services_1.OrderServices.createOrderIntoDB(order);
+            const updatedProduct = yield product_model_1.ProductModel.updateOne(query, update, options);
+            mess = result;
+        }
         const currentTime = new Date().toISOString();
         const updatedResult = yield product_model_1.ProductModel.find(query);
-        res.status(200).json({
-            success: true,
-            message: "Order created successfully!",
-            data: result,
-            orderTime: currentTime,
-            updatedQuantity: "Product Model Updated",
-            UpdatedData: updatedResult
-        });
+        if (mess !== "Order Not Possible") {
+            res.status(200).json({
+                success: true,
+                message: "Order created successfully!",
+                data: mess,
+                orderTime: currentTime,
+                updatedQuantity: "Product Model Updated",
+                UpdatedData: updatedResult
+            });
+        }
     }
     catch (err) {
         res.status(500).json({

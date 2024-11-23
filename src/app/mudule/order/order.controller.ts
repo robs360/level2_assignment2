@@ -6,6 +6,7 @@ import { OrderModel } from "./order.model";
 
 const createOrder = async (req: Request, res: Response) => {
     try {
+        let mess:any="Order Not Possible"
         const order = req.body.order;
 
         const decrement = order.quantity;
@@ -13,34 +14,36 @@ const createOrder = async (req: Request, res: Response) => {
         const query = { _id: new ObjectId(order.product) };
 
         const Result2 = await ProductModel.find(query);
-        
-        if(Result2[0].quantity<decrement){
-           res.send({
-              message:"Sorry Quantity are not avialable"
-           })
+        const update = { $inc: { quantity: -decrement } };
+
+        const options = { new: true };
+        if (Result2[0].quantity < decrement) {
+            res.status(404).json({
+                message: "Sorry Quantity Are Not Avialable"
+            })
         }
 
-        const result = await OrderServices.createOrderIntoDB(order)
-        
+        else{
+            const result = await OrderServices.createOrderIntoDB(order)
+            const updatedProduct = await ProductModel.updateOne(query, update, options);
+            mess=result;
+        }
 
-        const update = { $inc: { quantity: -decrement } };
-        
-        
-        const options = { new: true };
-
-        const updatedProduct = await ProductModel.updateOne(query, update, options);
+            
         const currentTime = new Date().toISOString();
 
         const updatedResult = await ProductModel.find(query);
-        
+
+       if(mess!=="Order Not Possible"){
         res.status(200).json({
             success: true,
             message: "Order created successfully!",
-            data: result,
+            data:mess,
             orderTime: currentTime,
             updatedQuantity: "Product Model Updated",
             UpdatedData: updatedResult
         });
+       }
     }
     catch (err) {
         res.status(500).json({

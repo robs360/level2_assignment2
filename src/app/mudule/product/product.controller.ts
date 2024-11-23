@@ -84,7 +84,7 @@ const updateSingleProduct = async (req: Request, res: Response) => {
         const id = req.params.id;
         const updateDoc = req.body.product;
         const result = await ProductServices.updatSingleProductFromDB(id, updateDoc)
-        console.log(result)
+        
         const currentTime = new Date().toISOString();
         res.status(200).json({
             success: true,

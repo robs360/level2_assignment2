@@ -88,7 +88,6 @@ const updateSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, func
         const id = req.params.id;
         const updateDoc = req.body.product;
         const result = yield product_service_1.ProductServices.updatSingleProductFromDB(id, updateDoc);
-        console.log(result);
         const currentTime = new Date().toISOString();
         res.status(200).json({
             success: true,

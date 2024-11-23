@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { OrderServices } from "./order.services";
 import { ObjectId } from 'mongodb';
 import { ProductModel } from "../product/product.model";
+import { OrderModel } from "./order.model";
 
 const createOrder = async (req: Request, res: Response) => {
     try {
@@ -36,6 +37,37 @@ const createOrder = async (req: Request, res: Response) => {
     }
 }
 
+
+const claculateRavenue=async (req: Request, res: Response)=>{
+   try{
+    const result = await OrderModel.aggregate([
+        {
+          $group: {
+            _id: null,
+            totalRevenue: { $sum: "$totalPrice" } 
+            
+          }
+        },
+        {
+          $project: {
+            _id: 0, 
+            totalRevenue: 1,
+            message: "Revenue calculated successfully",
+            status:true
+          }
+        }
+      ]);
+      res.status(200).json({
+        success: true,
+        data: result[0], 
+      });
+   }
+   catch(err){
+    throw err;
+   }
+}
+
+
 export const OrderController = {
-    createOrder
+    createOrder,claculateRavenue
 }

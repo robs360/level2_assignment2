@@ -13,6 +13,7 @@ exports.OrderController = void 0;
 const order_services_1 = require("./order.services");
 const mongodb_1 = require("mongodb");
 const product_model_1 = require("../product/product.model");
+const order_model_1 = require("./order.model");
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const order = req.body.order;
@@ -42,6 +43,33 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 });
+const claculateRavenue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield order_model_1.OrderModel.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    totalRevenue: { $sum: "$totalPrice" }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    totalRevenue: 1,
+                    message: "Revenue calculated successfully",
+                    status: true
+                }
+            }
+        ]);
+        res.status(200).json({
+            success: true,
+            data: result[0],
+        });
+    }
+    catch (err) {
+        throw err;
+    }
+});
 exports.OrderController = {
-    createOrder
+    createOrder, claculateRavenue
 };

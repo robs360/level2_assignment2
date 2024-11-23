@@ -17,14 +17,19 @@ const order_model_1 = require("./order.model");
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const order = req.body.order;
-        const result = yield order_services_1.OrderServices.createOrderIntoDB(order);
         const decrement = order.quantity;
         const query = { _id: new mongodb_1.ObjectId(order.product) };
+        const Result2 = yield product_model_1.ProductModel.find(query);
+        if (Result2[0].quantity < decrement) {
+            res.send({
+                message: "Sorry Quantity are not avialable"
+            });
+        }
+        const result = yield order_services_1.OrderServices.createOrderIntoDB(order);
         const update = { $inc: { quantity: -decrement } };
         const options = { new: true };
         const updatedProduct = yield product_model_1.ProductModel.updateOne(query, update, options);
         const currentTime = new Date().toISOString();
-        console.log(updatedProduct);
         const updatedResult = yield product_model_1.ProductModel.find(query);
         res.status(200).json({
             success: true,

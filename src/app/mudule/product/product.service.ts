@@ -28,15 +28,15 @@ const deleteSingleDataFromDB = async (id: string) => {
     return result
 }
 
-const updatSingleProsuctFromDB = async (id: string, updateDoc: Partial<TProduct>) => {
+const updatSingleProductFromDB = async (id: string, updateDoc: Partial<TProduct>) => {
     const query = { _id: new ObjectId(id) }
     const update = { $set: updateDoc }
-   
-    const result = await ProductModel.updateOne(query, update);
+    const option ={new:true}
+    const result = await ProductModel.updateOne(query, update,option);
     return result;
 }
 export const ProductServices = {
     createProductIntoDB, getAllProductFromDB,
     getSingleProductFromDB, deleteSingleDataFromDB,
-    updatSingleProsuctFromDB
+    updatSingleProductFromDB
 }

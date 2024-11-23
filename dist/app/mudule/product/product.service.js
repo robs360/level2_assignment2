@@ -33,7 +33,15 @@ const deleteSingleDataFromDB = (id) => __awaiter(void 0, void 0, void 0, functio
     }
     return result;
 });
+const updatSingleProductFromDB = (id, updateDoc) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = { _id: new mongodb_1.ObjectId(id) };
+    const update = { $set: updateDoc };
+    const option = { new: true };
+    const result = yield product_model_1.ProductModel.updateOne(query, update, option);
+    return result;
+});
 exports.ProductServices = {
     createProductIntoDB, getAllProductFromDB,
-    getSingleProductFromDB, deleteSingleDataFromDB
+    getSingleProductFromDB, deleteSingleDataFromDB,
+    updatSingleProductFromDB
 };

@@ -83,6 +83,29 @@ const deleteSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
 });
+const updateSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.id;
+        const updateDoc = req.body.product;
+        const result = yield product_service_1.ProductServices.updatSingleProductFromDB(id, updateDoc);
+        console.log(result);
+        const currentTime = new Date().toISOString();
+        res.status(200).json({
+            success: true,
+            message: "Product updated successfully.",
+            updateddata: result,
+            updatedTime: currentTime,
+        });
+    }
+    catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Failed To Update Data.",
+            error: err instanceof Error ? err.message : "Unknown error",
+        });
+    }
+});
 exports.ProductController = {
-    createProduct, getAllProduct, getSingleProduct, deleteSingleProduct
+    createProduct, getAllProduct, getSingleProduct,
+    deleteSingleProduct, updateSingleProduct
 };

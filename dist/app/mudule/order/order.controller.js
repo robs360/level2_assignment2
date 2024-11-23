@@ -23,6 +23,7 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const options = { new: true };
         const updatedProduct = yield product_model_1.ProductModel.updateOne(query, update, options);
         const currentTime = new Date().toISOString();
+        console.log(updatedProduct);
         const updatedResult = yield product_model_1.ProductModel.find(query);
         res.status(200).json({
             success: true,

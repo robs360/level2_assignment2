@@ -16,7 +16,7 @@ const createOrder = async (req: Request, res: Response) => {
         const options = { new: true };
         const updatedProduct = await ProductModel.updateOne(query, update, options);
         const currentTime = new Date().toISOString();
-
+        console.log(updatedProduct)
         const updatedResult=await ProductModel.find(query);
         res.status(200).json({
             success: true,

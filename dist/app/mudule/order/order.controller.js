@@ -11,16 +11,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderController = void 0;
 const order_services_1 = require("./order.services");
+const mongodb_1 = require("mongodb");
+const product_model_1 = require("../product/product.model");
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const order = req.body.order;
         const result = yield order_services_1.OrderServices.createOrderIntoDB(order);
+        const decrement = order.quantity;
+        const query = { _id: new mongodb_1.ObjectId(order.product) };
+        const update = { $inc: { quantity: -decrement } };
+        const options = { new: true };
+        const updatedProduct = yield product_model_1.ProductModel.updateOne(query, update, options);
         const currentTime = new Date().toISOString();
         res.status(200).json({
             success: true,
             message: "Order created successfully!",
             data: result,
             orderTime: currentTime,
+            updatedQuantity: updatedProduct
         });
     }
     catch (err) {

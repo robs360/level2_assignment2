@@ -27,7 +27,7 @@ const getAllProduct = async (req: Request, res: Response) => {
         let search: string = '';
         if (req.query.q) {
             search = String(req.query.q);
-            console.log(search)
+            
         }
         const result = await ProductServices.getAllProductFromDB(search)
         res.status(200).json({

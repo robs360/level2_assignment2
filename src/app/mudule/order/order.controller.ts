@@ -9,7 +9,7 @@ import { TOrder } from "./order.interface";
 const createOrder = async (req: Request, res: Response) => {
     try {
         let custumerOrder: TOrder | '' = '';
-        let mess: any = "Order Not Possible"
+        let mess:string = "Order Not Possible"
         const order = req.body.order;
 
         const decrement = order.quantity;
@@ -49,7 +49,6 @@ const createOrder = async (req: Request, res: Response) => {
         const currentTime = new Date().toISOString();
 
         const updatedResult = await ProductModel.find(query);
-
 
 
         if (mess !== "Order Not Possible") {

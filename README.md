@@ -37,3 +37,18 @@ Folder Structure:
 Used Tech:
 
 express, Typescript, MongoDB, Mongoose, Cors, DotEnv Etc
+
+NPM For Devedependency is:
+npm install --save-dev @types/cors@^2.8.17 @types/express@^5.0.0 @types/node@^22.9.1 nodemon@^3.1.7 typescript@^5.6.3
+
+## Scripts
+
+The following npm scripts are available:
+
+### 1. `dev`
+Runs the server in development mode using **Nodemon**. It will watch for file changes and automatically restart the server.
+
+```bash
+npm run dev
+
+

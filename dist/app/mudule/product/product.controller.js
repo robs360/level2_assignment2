@@ -32,7 +32,12 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 const getAllProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield product_service_1.ProductServices.getAllProductFromDB();
+        let search = '';
+        if (req.query.q) {
+            search = String(req.query.q);
+            console.log(search);
+        }
+        const result = yield product_service_1.ProductServices.getAllProductFromDB(search);
         res.status(200).json({
             success: true,
             message: "Get All Data Successfully!",

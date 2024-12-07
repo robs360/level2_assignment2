@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { ProductServices } from "./product.service";
 const createProduct = async (req: Request, res: Response) => {
     try {
-        const productData = req.body.product;
+        const productData = req.body;
 
         const result = await ProductServices.createProductIntoDB(productData)
         res.status(200).json({
@@ -47,7 +47,7 @@ const getAllProduct = async (req: Request, res: Response) => {
 
 const getSingleProduct = async (req: Request, res: Response) => {
     try {
-        const id = req.params.id;
+        const id = req.params.productId;
         const result = await ProductServices.getSingleProductFromDB(id)
         res.status(200).json({
             success: true,
@@ -67,7 +67,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
 
 const deleteSingleProduct = async (req: Request, res: Response) => {
     try {
-        const id = req.params.id;
+        const id = req.params.productId;
         const result = await ProductServices.deleteSingleDataFromDB(id)
         res.status(200).json({
             success: true,
@@ -87,8 +87,8 @@ const deleteSingleProduct = async (req: Request, res: Response) => {
 
 const updateSingleProduct = async (req: Request, res: Response) => {
     try {
-        const id = req.params.id;
-        const updateDoc = req.body.product;
+        const id = req.params.productId;
+        const updateDoc = req.body;
         const result = await ProductServices.updatSingleProductFromDB(id, updateDoc)
         
         const currentTime = new Date().toISOString();

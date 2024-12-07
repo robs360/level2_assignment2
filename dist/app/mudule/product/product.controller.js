@@ -13,7 +13,7 @@ exports.ProductController = void 0;
 const product_service_1 = require("./product.service");
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const productData = req.body.product;
+        const productData = req.body;
         const result = yield product_service_1.ProductServices.createProductIntoDB(productData);
         res.status(200).json({
             success: true,
@@ -53,7 +53,7 @@ const getAllProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.id;
+        const id = req.params.productId;
         const result = yield product_service_1.ProductServices.getSingleProductFromDB(id);
         res.status(200).json({
             success: true,
@@ -71,7 +71,7 @@ const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, functio
 });
 const deleteSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.id;
+        const id = req.params.productId;
         const result = yield product_service_1.ProductServices.deleteSingleDataFromDB(id);
         res.status(200).json({
             success: true,
@@ -89,8 +89,8 @@ const deleteSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, func
 });
 const updateSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.id;
-        const updateDoc = req.body.product;
+        const id = req.params.productId;
+        const updateDoc = req.body;
         const result = yield product_service_1.ProductServices.updatSingleProductFromDB(id, updateDoc);
         const currentTime = new Date().toISOString();
         res.status(200).json({

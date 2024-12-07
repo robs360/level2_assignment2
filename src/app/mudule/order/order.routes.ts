@@ -3,7 +3,7 @@ import { OrderController } from './order.controller'
 
 const router=express.Router()
 
-router.post('/create-order',OrderController.createOrder)
-router.get('/calc-revenue',OrderController.claculateRavenue)
+router.post('/',OrderController.createOrder)
+router.get('/revenue',OrderController.claculateRavenue)
 
 export const OrderRoutes=router

@@ -18,7 +18,7 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         let custumerOrder = '';
         let mess = "Order Not Possible";
-        const order = req.body.order;
+        const order = req.body;
         const decrement = order.quantity;
         const query = { _id: new mongodb_1.ObjectId(order.product) };
         const Result2 = yield product_model_1.ProductModel.find(query);

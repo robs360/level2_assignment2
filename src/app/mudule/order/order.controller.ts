@@ -10,7 +10,7 @@ const createOrder = async (req: Request, res: Response) => {
     try {
         let custumerOrder: TOrder | '' = '';
         let mess:string = "Order Not Possible"
-        const order = req.body.order;
+        const order = req.body;
 
         const decrement = order.quantity;
 
